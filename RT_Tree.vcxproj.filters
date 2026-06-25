@@ -18,9 +18,18 @@
     <ClInclude Include="rb_tree.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="dict.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="rb_tree.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="dict.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="main.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

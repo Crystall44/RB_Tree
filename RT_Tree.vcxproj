@@ -19,9 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dict.h" />
     <ClInclude Include="rb_tree.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="dict.c" />
+    <ClCompile Include="main.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="rb_tree.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

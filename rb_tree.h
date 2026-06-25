@@ -48,6 +48,10 @@ int rb_size(const RBTree* tree);
 // Печать всех пар key:value в порядке возрастания ключей
 void rb_print_in_order(const RBTree* tree);
 
+// Для проверки свойств в тестах
+int rb_check_properties(const RBTree* tree);
+int rb_black_height(const RBTree* tree);
+
 #endif
 
 

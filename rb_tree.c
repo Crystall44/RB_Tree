@@ -259,7 +259,7 @@ static void delete_fixup(RBTree* t, RBNode* x) {
 			RBNode* w = x->parent->right; // брат x
 
 			// Случай 1 - брат красный
-			if (w->color = RED) {
+			if (w->color == RED) {
 				w->color = BLACK;
 				x->parent->color = RED;
 				left_rotate(t, x->parent);
@@ -293,7 +293,7 @@ static void delete_fixup(RBTree* t, RBNode* x) {
 			RBNode* w = x->parent->left; // брат x
 
 			// Случай 1 - брат красный
-			if (w->color = RED) {
+			if (w->color == RED) {
 				w->color = BLACK;
 				x->parent->color = RED;
 				right_rotate(t, x->parent);
@@ -399,4 +399,57 @@ static void in_order(RBTree* t, RBNode* n) {
 void rb_print_in_order(const RBTree* t) {
 	in_order(t, t->root);
 	printf("\n");
+}
+
+// Рекурсивный обход 
+static int check_node(const RBTree* t, RBNode* n, int* bh) {
+	if (n == t->nil) {
+		*bh = 1;   // nil-лист считается чёрным, высота = 1
+		return 1;
+	}
+
+	// Свойство BST: left < key < right
+	if (n->left != t->nil && n->left->key >= n->key) return 0;
+	if (n->right != t->nil && n->right->key <= n->key) return 0;
+
+	// Свойство 4: у красного узла оба потомка чёрные
+	if (n->color == RED) {
+		if (n->left->color != BLACK || n->right->color != BLACK) return 0;
+	}
+
+	int lbh, rbh;
+	if (!check_node(t, n->left, &lbh)) return 0;
+	if (!check_node(t, n->right, &rbh)) return 0;
+
+	// Свойство 5: одинаковая чёрная высота
+	if (lbh != rbh) return 0;
+
+	*bh = lbh + (n->color == BLACK ? 1 : 0);
+	return 1;
+}
+
+// Проверка всех пяти свойств красно-черного дерева
+int rb_check_properties(const RBTree* tree) {
+	if (tree == NULL) return 0;
+
+	/* Свойство 2: корень чёрный */
+	if (tree->root->color != BLACK) return 0;
+
+	/* Свойство 3: nil-страж чёрный */
+	if (tree->nil->color != BLACK) return 0;
+
+	int bh;
+	return check_node(tree, tree->root, &bh);
+}
+
+// Возвращает черную высоту дерева для отладки
+int rb_black_height(const RBTree* tree) {
+	if (tree == NULL || tree->root == tree->nil) return 0;
+	int bh = 0;
+	RBNode* cur = tree->root;
+	while (cur != tree->nil) {
+		if (cur->color == BLACK) bh++;
+		cur = cur->left;
+	}
+	return bh;
 }
